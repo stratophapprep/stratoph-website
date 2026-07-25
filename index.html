@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Agirep is an app for tracking your real-world social interactions. Log your reps and follow your social progress over time."
+      content="agirep tracks your real-world social interactions and shows you the progress you'd otherwise never notice."
     />
-    <title>Agirep — Social Fitness Tracker</title>
+    <title>agirep — Social Skills Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
     <style>
       :root {
         --bg: #f8f9fa;
@@ -16,7 +22,7 @@
         --text: #1a1a1a;
         --text-muted: #5c6670;
         --border: #e2e6ea;
-        --max-width: 480px;
+        --max-width: 640px;
       }
 
       *,
@@ -37,15 +43,7 @@
         align-items: center;
         background: var(--bg);
         color: var(--text);
-        font-family:
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          'Segoe UI',
-          Roboto,
-          'Helvetica Neue',
-          Arial,
-          sans-serif;
+        font-family: 'DM Sans', system-ui, sans-serif;
         font-size: 16px;
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
@@ -58,14 +56,30 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 48px 24px 32px;
+        padding: 48px 24px 40px;
         text-align: center;
       }
 
-      .logo {
-        width: 120px;
-        height: auto;
-        margin-bottom: 32px;
+      .wordmark {
+        margin: 0 0 8px;
+        font-size: 3rem;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        color: var(--text);
+      }
+
+      .wordmark-brand {
+        color: var(--primary);
+      }
+
+      .subtitle {
+        margin: 0 0 40px;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-muted);
       }
 
       .tagline {
@@ -78,30 +92,103 @@
       }
 
       .description {
-        margin: 0 0 40px;
+        margin: 0 0 32px;
         font-size: 1rem;
-        line-height: 1.6;
+        line-height: 1.65;
         color: var(--text-muted);
-        max-width: 36ch;
+        max-width: 42ch;
       }
 
-      .availability {
+      .store-link {
+        display: inline-block;
+        line-height: 0;
+        margin-bottom: 12px;
+      }
+
+      .store-link img {
+        height: 44px;
+        width: auto;
+      }
+
+      .store-link:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 4px;
+        border-radius: 8px;
+      }
+
+      .android-soon {
+        margin: 0 0 48px;
+        font-size: 0.8125rem;
+        color: var(--text-muted);
+      }
+
+      .features {
+        width: 100%;
+        margin-bottom: 48px;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        width: 100%;
+        text-align: left;
+      }
+
+      .feature-card {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px 16px;
+      }
+
+      .feature-card h2 {
+        margin: 0 0 8px;
+        font-size: 0.9375rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: var(--text);
+      }
+
+      .feature-card p {
+        margin: 0;
+        font-size: 0.8125rem;
+        line-height: 1.55;
+        color: var(--text-muted);
+      }
+
+      .philosophy {
+        width: 100%;
+        max-width: 36ch;
+        margin-bottom: 8px;
+      }
+
+      .philosophy-quote {
+        margin: 0 0 12px;
+        font-size: 1.125rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.4;
+        color: var(--text);
+      }
+
+      .philosophy-sub {
         margin: 0;
         font-size: 0.875rem;
+        line-height: 1.6;
         color: var(--text-muted);
-      }
-
-      .availability::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        margin-right: 8px;
-        border-radius: 50%;
-        background: var(--accent);
-        vertical-align: middle;
-        position: relative;
-        top: -1px;
       }
 
       .site-footer {
@@ -112,7 +199,7 @@
       }
 
       .footer-links {
-        margin: 0;
+        margin: 0 0 12px;
         font-size: 0.8125rem;
         color: var(--text-muted);
         line-height: 1.8;
@@ -134,31 +221,91 @@
         user-select: none;
       }
 
+      .footer-credit {
+        margin: 0;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+      }
+
       @media (min-width: 400px) {
+        .wordmark {
+          font-size: 3.5rem;
+        }
+
         .tagline {
           font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .features-grid {
+          grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
   <body>
     <main class="page">
-      <img
-        class="logo"
-        src="logo-rep.png"
-        width="240"
-        height="240"
-        alt="Agirep"
-      />
+      <p class="wordmark" aria-label="agirep">
+        agir<span class="wordmark-brand" aria-hidden="true">≡</span>p
+      </p>
+      <p class="subtitle">Social Skills Tracker</p>
 
       <h1 class="tagline">Build your social strength.</h1>
 
       <p class="description">
-        Social skills are trainable. Agirep lets you track your real-world social
-        interactions and follow your progress over time.
+        Social skills are trainable. Agirep tracks your real-world social
+        interactions and shows you the progress you'd otherwise never notice.
       </p>
 
-      <p class="availability">Available soon on iOS and Android</p>
+      <a
+        class="store-link"
+        href="https://apps.apple.com/app/agirep-social-confidence/id6784792973"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Download on the App Store"
+      >
+        <img
+          src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83"
+          alt="Download on the App Store"
+          width="250"
+          height="83"
+        />
+      </a>
+      <p class="android-soon">Android coming soon</p>
+
+      <section class="features" aria-labelledby="features-heading">
+        <h2 id="features-heading" class="visually-hidden">Features</h2>
+        <div class="features-grid">
+          <article class="feature-card">
+            <h2>Log a Rep</h2>
+            <p>
+              Eye contact, small talk, a real conversation — pick the type, rate
+              how it went.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h2>Start a Session</h2>
+            <p>
+              Set your location, start the timer, log multiple reps in one go.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h2>Track Streaks</h2>
+            <p>
+              Daily progress ring, weekly chart, and streak counter. Honest data,
+              no gimmicks.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h2>Privacy-first</h2>
+            <p>
+              No account needed. Your data stays on your device. No feed, no
+              followers.
+            </p>
+          </article>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -171,6 +318,7 @@
         ><span class="sep" aria-hidden="true">·</span
         ><a href="support.html">Support</a>
       </p>
+      <p class="footer-credit">Stratoph Studio · 2026</p>
     </footer>
   </body>
 </html>
