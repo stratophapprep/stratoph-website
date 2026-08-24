@@ -1,324 +1,667 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="agirep tracks your real-world social interactions and shows you the progress you'd otherwise never notice."
-    />
-    <title>agirep — Social Skills Tracker</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --bg: #f8f9fa;
-        --primary: #2a6f97;
-        --accent: #4ecda4;
-        --text: #1a1a1a;
-        --text-muted: #5c6670;
-        --border: #e2e6ea;
-        --max-width: 640px;
-      }
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>agirep — Social Skills Tracker</title>
+<meta name="description" content="agirep makes social skills trainable. Log your reps, run sessions, and watch progress you'd otherwise never notice." />
+<meta property="og:title" content="agirep — Social Skills Tracker" />
+<meta property="og:description" content="You don't lack confidence. You lack reps." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#14181C;
+  --ink-soft:#3D4650;
+  --muted:#6B7280;
+  --faint:#9CA3AF;
+  --blue:#2A6F97;
+  --blue-deep:#1B4D6B;
+  --blue-wash:#EDF4F8;
+  --orange:#E8833A;
+  --paper:#F8F9FA;
+  --white:#fff;
+  --line:#E3E7EB;
+  --r:18px;
+  --max:1120px;
+}
 
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
 
-      html {
-        -webkit-text-size-adjust: 100%;
-      }
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 
-      body {
-        margin: 0;
-        min-height: 100dvh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background: var(--bg);
-        color: var(--text);
-        font-family: 'DM Sans', system-ui, sans-serif;
-        font-size: 16px;
-        line-height: 1.5;
-        -webkit-font-smoothing: antialiased;
-      }
+/* scroll reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+.rv-1{transition-delay:.06s}.rv-2{transition-delay:.12s}.rv-3{transition-delay:.18s}
 
-      .page {
-        width: 100%;
-        max-width: var(--max-width);
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 48px 24px 40px;
-        text-align: center;
-      }
+/* nav */
+.nav{
+  position:sticky;top:0;z-index:60;
+  background:rgba(248,249,250,.82);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{
+  max-width:var(--max);margin:0 auto;padding:12px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.logo-img{height:80px;width:auto;display:block}
+.mark{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.45rem;font-weight:700;letter-spacing:-.04em;
+  text-decoration:none;line-height:1;
+}
+.mark i{font-style:normal;color:var(--blue)}
+.nav-r{display:flex;align-items:center;gap:26px}
+.nav-r a{font-size:.88rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color .18s}
+.nav-r a:hover{color:var(--ink)}
+.nav-r .pill{
+  background:var(--ink);color:var(--white);
+  padding:9px 18px;border-radius:10px;font-weight:600;font-size:.85rem;
+  transition:background .18s;
+}
+.nav-r .pill:hover{background:var(--blue);color:var(--white)}
 
-      .wordmark {
-        margin: 0 0 8px;
-        font-size: 3rem;
-        font-weight: 800;
-        letter-spacing: -0.04em;
-        line-height: 1;
-        color: var(--text);
-      }
+/* shared */
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--blue);
+}
+.h2{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:700;
+  letter-spacing:-.03em;line-height:1.12;
+}
+.lede{font-size:1.02rem;color:var(--muted);line-height:1.7;max-width:52ch}
 
-      .wordmark-brand {
-        color: var(--primary);
-      }
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:15px 26px;border-radius:13px;
+  font-size:1rem;font-weight:600;text-decoration:none;
+  border:1px solid transparent;cursor:pointer;
+  transition:transform .18s,background .18s,border-color .18s;
+}
+.btn svg{width:19px;height:19px;fill:currentColor;flex-shrink:0}
+.btn-fill{background:var(--ink);color:var(--white)}
+.btn-fill:hover{background:var(--blue);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn-light{background:var(--white);color:var(--ink)}
+.btn-light:hover{transform:translateY(-2px)}
 
-      .subtitle {
-        margin: 0 0 40px;
-        font-size: 0.6875rem;
-        font-weight: 600;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--text-muted);
-      }
+/* hero */
+.hero{padding:76px 0 0}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2.5rem,5.4vw,4rem);
+  font-weight:700;letter-spacing:-.045em;line-height:1.03;
+  margin:20px 0 22px;
+}
+.hero h1 .dim{color:var(--faint)}
+.hero h1 .hit{position:relative;display:inline-block;white-space:nowrap}
+.hero h1 .hit::after{
+  content:'';position:absolute;left:0;right:0;bottom:.06em;height:.16em;
+  background:var(--orange);opacity:.3;border-radius:2px;
+}
+.hero h1 .hit span{position:relative;z-index:1}
+.hero p.sub{font-size:1.08rem;color:var(--ink-soft);line-height:1.65;max-width:46ch;margin-bottom:30px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero-fine{
+  margin-top:18px;font-family:'IBM Plex Mono',monospace;
+  font-size:.74rem;color:var(--faint);letter-spacing:.04em;
+}
 
-      .tagline {
-        margin: 0 0 16px;
-        font-size: 1.75rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        line-height: 1.25;
-        color: var(--text);
-      }
+.strip{
+  margin-top:34px;padding:16px 18px;background:var(--white);
+  border:1px solid var(--line);border-radius:14px;max-width:400px;
+}
+.strip-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.strip-label{
+  font-family:'IBM Plex Mono',monospace;font-size:.66rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+}
+.strip-streak{font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:500;color:var(--orange)}
+.strip-days{display:flex;justify-content:space-between}
+.sd{text-align:center;flex:1}
+.sd .d{font-size:.62rem;color:var(--faint);letter-spacing:.06em;margin-bottom:5px}
+.sd .m{
+  height:22px;display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:#C9CDD2;
+}
+.sd.on .m{color:var(--blue);font-weight:600}
+.sd.today{border:1px solid var(--line);border-radius:8px;padding:3px 0;margin:-3px 2px 0}
 
-      .description {
-        margin: 0 0 32px;
-        font-size: 1rem;
-        line-height: 1.65;
-        color: var(--text-muted);
-        max-width: 42ch;
-      }
+/* phone with real screenshot */
+.phone-stage{display:flex;justify-content:center;position:relative}
+.phone-stage::before{
+  content:'';position:absolute;width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(42,111,151,.10),transparent 68%);
+  top:44%;left:50%;transform:translate(-50%,-50%);
+}
+.phone{
+  position:relative;width:270px;
+  background:#0F1216;border-radius:44px;padding:9px;
+  box-shadow:0 30px 70px rgba(20,24,28,.20),0 2px 10px rgba(20,24,28,.10);
+}
+.phone img{
+  display:block;width:100%;height:auto;border-radius:36px;
+}
+.notch{
+  position:absolute;top:9px;left:50%;transform:translateX(-50%);
+  width:96px;height:23px;background:#0F1216;border-radius:0 0 14px 14px;z-index:3;
+}
 
-      .store-link {
-        display: inline-block;
-        line-height: 0;
-        margin-bottom: 12px;
-      }
+/* dark mechanism */
+.dark{background:var(--ink);color:var(--white);margin-top:96px;padding:88px 0}
+.dark .eyebrow{color:var(--orange)}
+.dark .h2{margin:14px 0 16px;max-width:16ch}
+.dark .lede{color:rgba(255,255,255,.58)}
+.mech{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.10);
+  border-radius:16px;overflow:hidden;margin-top:48px;
+}
+.mech-c{background:var(--ink);padding:32px 26px}
+.mech-n{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.14em;
+  color:var(--orange);margin-bottom:20px;
+}
+.mech-c h3{
+  font-family:'Space Grotesk',sans-serif;font-size:1.16rem;font-weight:600;
+  letter-spacing:-.02em;margin-bottom:10px;
+}
+.mech-c p{font-size:.92rem;color:rgba(255,255,255,.55);line-height:1.65}
+.dark-note{
+  margin-top:34px;padding-left:16px;border-left:2px solid rgba(255,255,255,.18);
+  font-size:.84rem;color:rgba(255,255,255,.42);line-height:1.6;max-width:64ch;
+}
 
-      .store-link img {
-        height: 44px;
-        width: auto;
-      }
+/* ── TRY IT — live console ── */
+.try{padding:96px 0}
+.try-head{margin-bottom:44px;max-width:56ch}
+.try-head .h2{margin:14px 0 14px}
 
-      .store-link:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 4px;
-        border-radius: 8px;
-      }
+.console{
+  display:grid;grid-template-columns:1fr 1.15fr;gap:0;
+  background:var(--white);border:1px solid var(--line);
+  border-radius:24px;overflow:hidden;
+}
 
-      .android-soon {
-        margin: 0 0 48px;
-        font-size: 0.8125rem;
-        color: var(--text-muted);
-      }
+/* left: input */
+.c-left{padding:30px 28px;border-right:1px solid var(--line)}
+.c-kicker{
+  font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:16px;
+}
+.c-reps{display:flex;flex-direction:column;gap:8px}
+.c-rep{
+  display:flex;align-items:center;gap:11px;width:100%;
+  padding:13px 16px;border-radius:12px;
+  background:var(--paper);border:1px solid var(--line);
+  font-family:'DM Sans',sans-serif;font-size:.93rem;font-weight:500;
+  color:var(--ink);cursor:pointer;text-align:left;
+  transition:border-color .16s,background .16s,transform .1s;
+}
+.c-rep:hover:not(:disabled){border-color:var(--blue);background:var(--blue-wash)}
+.c-rep:active:not(:disabled){transform:scale(.98)}
+.c-rep:disabled{opacity:.35;cursor:default}
+.c-rep .dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0}
+.c-hint{
+  margin-top:18px;font-size:.78rem;color:var(--faint);line-height:1.55;
+}
 
-      .features {
-        width: 100%;
-        margin-bottom: 48px;
-      }
+/* right: output */
+.c-right{padding:30px 28px;background:linear-gradient(180deg,#FBFCFC,#F5F7F8)}
+.c-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.c-m{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.c-m .k{
+  font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:6px;
+}
+.c-m .v{
+  font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:700;
+  line-height:1;letter-spacing:-.03em;
+}
+.c-m .v.small{font-size:1.05rem}
+.c-m .v.drop{color:var(--blue);transition:color .3s}
 
-      .visually-hidden {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-      }
+.c-chart{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px}
+.c-chart .k{
+  font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:14px;
+}
+.c-bars{display:flex;align-items:flex-end;gap:7px;height:88px}
+.c-bars i{
+  flex:1;background:var(--blue);border-radius:4px;height:4%;
+  transition:height .55s cubic-bezier(.2,.85,.3,1);display:block;
+}
+.c-bars i.idle{background:#E1E5E8}
+.c-axis{
+  display:flex;justify-content:space-between;margin-top:9px;
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--faint);
+}
 
-      .features-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        width: 100%;
-        text-align: left;
-      }
+.c-payoff{
+  margin-top:18px;padding:15px 17px;background:var(--ink);color:var(--white);
+  border-radius:13px;font-size:.88rem;line-height:1.6;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .5s,transform .5s;pointer-events:none;
+}
+.c-payoff.show{opacity:1;transform:none;pointer-events:auto}
+.c-payoff b{font-weight:600}
+.c-payoff i{font-style:normal;color:#8FC4E0;font-weight:500}
+.pf-cta{
+  display:inline-block;margin-top:12px;font-size:.85rem;font-weight:600;
+  color:var(--white);text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:2px;
+  transition:border-color .18s;
+}
+.pf-cta:hover{border-color:var(--white)}
+.c-payoff .rs{
+  display:block;margin-top:12px;font-size:.76rem;
+  color:rgba(255,255,255,.55);background:none;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;text-decoration:underline;text-underline-offset:3px;
+}
+.c-payoff .rs:hover{color:rgba(255,255,255,.85)}
 
-      .feature-card {
-        background: #ffffff;
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 18px 16px;
-      }
+/* features */
+.feat{padding:0 0 96px}
+.feat-head{margin-bottom:40px}
+.feat-head .h2{margin:14px 0 14px;max-width:18ch}
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.f{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--r);
+  padding:30px 28px;transition:border-color .2s,transform .2s;
+}
+.f:hover{border-color:#CBD3D9;transform:translateY(-3px)}
+.f-top{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.f-ico{
+  width:34px;height:48px;border-radius:10px;background:var(--blue-wash);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.f-ico svg{width:17px;height:17px;stroke:var(--blue);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.f h3{font-family:'Space Grotesk',sans-serif;font-size:1.06rem;font-weight:600;letter-spacing:-.02em}
+.f p{font-size:.92rem;color:var(--muted);line-height:1.65}
+.f.wide{grid-column:1/-1;background:var(--blue-wash);border-color:transparent}
+.f.wide .f-ico{background:var(--white)}
+.f.wide p{color:var(--blue-deep);opacity:.78}
 
-      .feature-card h2 {
-        margin: 0 0 8px;
-        font-size: 0.9375rem;
-        font-weight: 700;
-        letter-spacing: -0.01em;
-        color: var(--text);
-      }
+/* cta */
+.cta{background:var(--blue);color:var(--white);padding:84px 0;text-align:center;position:relative;overflow:hidden}
+.cta::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 120%,rgba(255,255,255,.13),transparent 60%);
+  pointer-events:none;
+}
+.cta-in{position:relative;z-index:1}
+.cta h2{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(1.9rem,4vw,2.8rem);font-weight:700;
+  letter-spacing:-.035em;line-height:1.1;margin-bottom:14px;
+}
+.cta p{color:rgba(255,255,255,.72);font-size:1.02rem;margin:0 auto 30px;max-width:44ch}
+.cta-fine{
+  margin-top:18px;font-family:'IBM Plex Mono',monospace;
+  font-size:.72rem;color:rgba(255,255,255,.5);letter-spacing:.06em;
+}
 
-      .feature-card p {
-        margin: 0;
-        font-size: 0.8125rem;
-        line-height: 1.55;
-        color: var(--text-muted);
-      }
+/* footer */
+.foot{padding:44px 0 52px}
+.foot-in{display:flex;justify-content:space-between;align-items:flex-start;gap:28px;flex-wrap:wrap}
+.foot-l .logo-img{height:50px;margin-bottom:8px}
+.foot-tag{font-size:.8rem;color:var(--faint)}
+.foot-mail{font-size:.8rem;color:var(--blue);text-decoration:none;font-weight:500;display:inline-block;margin-top:6px}
+.foot-mail:hover{text-decoration:underline}
+.foot-links{display:flex;gap:24px;flex-wrap:wrap}
+.foot-links a{font-size:.84rem;color:var(--muted);text-decoration:none;font-weight:500;transition:color .18s}
+.foot-links a:hover{color:var(--blue)}
+.foot-btm{
+  margin-top:32px;padding-top:22px;border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--faint);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
 
-      .philosophy {
-        width: 100%;
-        max-width: 36ch;
-        margin-bottom: 8px;
-      }
+@media(max-width:900px){
+  .hero{padding-top:52px}
+  .hero-grid{grid-template-columns:1fr;gap:44px}
+  .hero p.sub,.strip{max-width:100%}
+  .phone-stage{order:-1}
+  .phone{width:238px}
+  .mech{grid-template-columns:1fr}
+  .console{grid-template-columns:1fr}
+  .c-left{border-right:none;border-bottom:1px solid var(--line)}
+  .fgrid{grid-template-columns:1fr}
+  .nav-r a:not(.pill){display:none}
+  .dark{margin-top:70px;padding:66px 0}
+  .try{padding:70px 0}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
 
-      .philosophy-quote {
-        margin: 0 0 12px;
-        font-size: 1.125rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        line-height: 1.4;
-        color: var(--text);
-      }
+<nav class="nav">
+  <div class="nav-in">
+    <a href="#" aria-label="agirep home">
+      <img class="logo-img" src="logo-wordmark.png" alt="agirep" />
+    </a>
+    <div class="nav-r">
+      <a href="#how">How it works</a>
+      <a href="#try">Try it</a>
+      <a href="#features">Features</a>
+      <a class="pill" href="https://apps.apple.com/app/id6784792973">Get the app</a>
+    </div>
+  </div>
+</nav>
 
-      .philosophy-sub {
-        margin: 0;
-        font-size: 0.875rem;
-        line-height: 1.6;
-        color: var(--text-muted);
-      }
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="rv">
+      <div class="eyebrow">Social Skills Tracker</div>
+      <h1>You don't lack <span class="dim">confidence.</span><br>You lack <span class="hit"><span>reps.</span></span></h1>
+      <p class="sub">agirep makes social skills trainable. Log every conversation, every bit of eye contact, every time you put yourself out there — and watch it add up.</p>
+      <div class="hero-cta">
+        <a class="btn btn-fill" href="https://apps.apple.com/app/id6784792973">
+          <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          Download for iOS
+        </a>
+        <a class="btn btn-ghost" href="#try">See how it works</a>
+      </div>
+      <p class="hero-fine">Free · No account · No feed · Android soon</p>
 
-      .site-footer {
-        width: 100%;
-        max-width: var(--max-width);
-        padding: 24px 24px 32px;
-        text-align: center;
-      }
-
-      .footer-links {
-        margin: 0 0 12px;
-        font-size: 0.8125rem;
-        color: var(--text-muted);
-        line-height: 1.8;
-      }
-
-      .footer-links a {
-        color: var(--primary);
-        text-decoration: none;
-        font-weight: 500;
-      }
-
-      .footer-links a:hover {
-        text-decoration: underline;
-      }
-
-      .footer-links .sep {
-        margin: 0 0.35em;
-        color: var(--border);
-        user-select: none;
-      }
-
-      .footer-credit {
-        margin: 0;
-        font-size: 0.75rem;
-        color: var(--text-muted);
-      }
-
-      @media (min-width: 400px) {
-        .wordmark {
-          font-size: 3.5rem;
-        }
-
-        .tagline {
-          font-size: 2rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .features-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <main class="page">
-      <p class="wordmark" aria-label="agirep">
-        agir<span class="wordmark-brand" aria-hidden="true">≡</span>p
-      </p>
-      <p class="subtitle">Social Skills Tracker</p>
-
-      <h1 class="tagline">Build your social strength.</h1>
-
-      <p class="description">
-        Social skills are trainable. Agirep tracks your real-world social
-        interactions and shows you the progress you'd otherwise never notice.
-      </p>
-
-      <a
-        class="store-link"
-        href="https://apps.apple.com/app/agirep-social-confidence/id6784792973"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Download on the App Store"
-      >
-        <img
-          src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83"
-          alt="Download on the App Store"
-          width="250"
-          height="83"
-        />
-      </a>
-      <p class="android-soon">Android coming soon</p>
-
-      <section class="features" aria-labelledby="features-heading">
-        <h2 id="features-heading" class="visually-hidden">Features</h2>
-        <div class="features-grid">
-          <article class="feature-card">
-            <h2>Log a Rep</h2>
-            <p>
-              Eye contact, small talk, a real conversation — pick the type, rate
-              how it went.
-            </p>
-          </article>
-          <article class="feature-card">
-            <h2>Start a Session</h2>
-            <p>
-              Set your location, start the timer, log multiple reps in one go.
-            </p>
-          </article>
-          <article class="feature-card">
-            <h2>Track Streaks</h2>
-            <p>
-              Daily progress ring, weekly chart, and streak counter. Honest data,
-              no gimmicks.
-            </p>
-          </article>
-          <article class="feature-card">
-            <h2>Privacy-first</h2>
-            <p>
-              No account needed. Your data stays on your device. No feed, no
-              followers.
-            </p>
-          </article>
+      <div class="strip" aria-hidden="true">
+        <div class="strip-top">
+          <span class="strip-label">This week</span>
+          <span class="strip-streak">23 day streak</span>
         </div>
-      </section>
-    </main>
+        <div class="strip-days">
+          <div class="sd on"><div class="d">MON</div><div class="m">✓</div></div>
+          <div class="sd on"><div class="d">TUE</div><div class="m">✓</div></div>
+          <div class="sd on"><div class="d">WED</div><div class="m">✓</div></div>
+          <div class="sd on"><div class="d">THU</div><div class="m">✓</div></div>
+          <div class="sd on today"><div class="d">FRI</div><div class="m">✓</div></div>
+          <div class="sd"><div class="d">SAT</div><div class="m">22</div></div>
+          <div class="sd"><div class="d">SUN</div><div class="m">23</div></div>
+        </div>
+      </div>
+    </div>
 
-    <footer class="site-footer">
-      <p class="footer-links">
-        <a href="privacy.html">Privacy Policy</a
-        ><span class="sep" aria-hidden="true">·</span
-        ><a href="terms.html">Terms of Service</a
-        ><span class="sep" aria-hidden="true">·</span
-        ><a href="impressum.html">Impressum</a
-        ><span class="sep" aria-hidden="true">·</span
-        ><a href="support.html">Support</a>
-      </p>
-      <p class="footer-credit">Stratoph Studio · 2026</p>
-    </footer>
-  </body>
+    <div class="phone-stage rv rv-1">
+      <div class="phone">
+        <div class="notch"></div>
+        <img src="screenshot-home.png" alt="agirep home screen showing daily rep ring, streak and weekly chart" />
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="dark" id="how">
+  <div class="wrap">
+    <div class="rv">
+      <div class="eyebrow">Why reps work</div>
+      <h2 class="h2">Discomfort fades. But only through repetition.</h2>
+      <p class="lede">Nothing here is a shortcut. These are mechanisms behavioural science has understood for decades — agirep just makes them countable.</p>
+    </div>
+
+    <div class="mech">
+      <div class="mech-c rv">
+        <div class="mech-n">01 — HABITUATION</div>
+        <h3>Your body stops reacting</h3>
+        <p>Repeated exposure to the same situation lowers the physiological stress response over time. The first conversation spikes your heart rate. The fiftieth doesn't.</p>
+      </div>
+      <div class="mech-c rv rv-1">
+        <div class="mech-n">02 — EXPOSURE</div>
+        <h3>Avoidance is the trap</h3>
+        <p>Stepping back from an uncomfortable moment brings instant relief — and makes the next one harder. Facing it repeatedly is the core mechanism behind evidence-based behavioural therapy.</p>
+      </div>
+      <div class="mech-c rv rv-2">
+        <div class="mech-n">03 — SELF-MONITORING</div>
+        <h3>What gets tracked gets done</h3>
+        <p>Recording a behaviour changes it. Tracking makes small, invisible progress visible — which is exactly the progress most people quit before ever noticing.</p>
+      </div>
+    </div>
+
+    <p class="dark-note rv">agirep is not therapy and makes no clinical claims. It's a tracker — the same way a running app doesn't coach you, it just shows you what you did.</p>
+  </div>
+</section>
+
+<section class="try" id="try">
+  <div class="wrap">
+    <div class="try-head rv">
+      <div class="eyebrow">The loop</div>
+      <h2 class="h2">Five taps. Watch what happens to the effort.</h2>
+      <p class="lede">Log what you did. The numbers do the rest. Tap a few and watch the effort curve move — this is the part that never happens on its own.</p>
+    </div>
+
+    <div class="console rv rv-1">
+      <div class="c-left">
+        <div class="c-kicker">Log a rep</div>
+        <div class="c-reps" id="reps">
+          <button class="c-rep" data-n="Eye Contact"><span class="dot"></span>Eye Contact</button>
+          <button class="c-rep" data-n="Smile"><span class="dot"></span>Smile</button>
+          <button class="c-rep" data-n="Quick Word"><span class="dot"></span>Quick Word</button>
+          <button class="c-rep" data-n="Small Talk"><span class="dot"></span>Small Talk</button>
+          <button class="c-rep" data-n="Real Conversation"><span class="dot"></span>Real Conversation</button>
+        </div>
+        <p class="c-hint" id="hint">Each tap adds one rep — exactly like the app. Watch the panel on the right.</p>
+      </div>
+
+      <div class="c-right">
+        <div class="c-metrics">
+          <div class="c-m">
+            <div class="k">Reps logged</div>
+            <div class="v" id="mReps">0</div>
+          </div>
+          <div class="c-m">
+            <div class="k">Avg effort</div>
+            <div class="v small drop" id="mEffort">—</div>
+          </div>
+        </div>
+
+        <div class="c-chart">
+          <div class="k">Weekly</div>
+          <div class="c-bars" id="bars">
+            <i class="idle"></i><i class="idle"></i><i class="idle"></i>
+            <i class="idle"></i><i class="idle"></i><i class="idle"></i><i class="idle"></i>
+          </div>
+          <div class="c-axis">
+            <span>MON</span><span>TUE</span><span>WED</span>
+            <span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+          </div>
+        </div>
+
+        <div class="c-payoff" id="payoff">
+          <b>That drop is the point.</b> The conversation that reads as a <i>big challenge</i> on day one reads as <i>easy</i> a few hundred reps later. That change is real — but it stays invisible unless something is counting.
+          <a class="pf-cta" href="https://apps.apple.com/app/id6784792973">Start your record →</a>
+          <button class="rs" id="reset">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="feat" id="features">
+  <div class="wrap">
+    <div class="feat-head rv">
+      <div class="eyebrow">What's inside</div>
+      <h2 class="h2">Built like a training log. Not a self-help app.</h2>
+    </div>
+
+    <div class="fgrid">
+      <div class="f rv">
+        <div class="f-top">
+          <div class="f-ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+          <h3>Log a rep</h3>
+        </div>
+        <p>Pick the type, rate how it went and how much effort it took. Ten seconds, then back to your life.</p>
+      </div>
+
+      <div class="f rv rv-1">
+        <div class="f-top">
+          <div class="f-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>Run a session</h3>
+        </div>
+        <p>Set the place, start the timer, log everything in one go. Work, school, a social event — like a workout, with a location.</p>
+      </div>
+
+      <div class="f rv">
+        <div class="f-top">
+          <div class="f-ico"><svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 8-8"/><path d="M20 8h-5M20 8v5"/></svg></div>
+          <h3>Watch the trend</h3>
+        </div>
+        <p>Daily ring, weekly chart, streak counter. The proof that the thing you dreaded last month is routine now.</p>
+      </div>
+
+      <div class="f rv rv-1">
+        <div class="f-top">
+          <div class="f-ico"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg></div>
+          <h3>Daily logbook</h3>
+        </div>
+        <p>A quick energy check in the morning, a short reflection at night. Two taps each — because a full journal never gets filled.</p>
+      </div>
+
+      <div class="f wide rv">
+        <div class="f-top">
+          <div class="f-ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.4-3.4 8.2-8 9-4.6-.8-8-4.6-8-9V7z"/></svg></div>
+          <h3>Private by design</h3>
+        </div>
+        <p>No account. No sign-up. Your reps stay on your device — we can't read them, sell them, or lose them. There is no feed, no followers, and nobody else sees a single thing you log.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap cta-in rv">
+    <h2>Rep one starts today.</h2>
+    <p>Free to download. Nothing to sign up for. Open it, log the next uncomfortable thing you do, and let the number do the rest.</p>
+    <a class="btn btn-light" href="https://apps.apple.com/app/id6784792973">
+      <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Download for iOS
+    </a>
+    <p class="cta-fine">Android coming soon</p>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-in">
+      <div class="foot-l">
+        <img class="logo-img" src="logo-wordmark.png" alt="agirep" />
+        <p class="foot-tag">Social skills are trainable.</p>
+        <a class="foot-mail" href="mailto:hello@stratoph.com">hello@stratoph.com</a>
+      </div>
+      <div class="foot-links">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="impressum.html">Imprint</a>
+        <a href="support.html">Support</a>
+      </div>
+    </div>
+    <div class="foot-btm">
+      <span>© 2026 Stratoph Studio</span>
+      <span>Not a medical device. Not therapy.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* scroll reveal */
+(function(){
+  var els = document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){
+    Array.prototype.forEach.call(els,function(e){e.classList.add('in')});
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  },{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+  Array.prototype.forEach.call(els,function(e){io.observe(e)});
+})();
+
+/* live console */
+(function(){
+  var MAX = 5;
+  var n = 0;
+  var reps   = document.getElementById('reps');
+  var mReps  = document.getElementById('mReps');
+  var mEff   = document.getElementById('mEffort');
+  var bars   = document.getElementById('bars').querySelectorAll('i');
+  var payoff = document.getElementById('payoff');
+  var reset  = document.getElementById('reset');
+  var hint   = document.getElementById('hint');
+
+  var EFFORT = ['—','Big challenge','Hard','Took effort','Slight effort','Easy'];
+  var HEIGHT = [
+    [4,4,4,4,4,4,4],
+    [26,4,4,4,4,4,4],
+    [26,44,4,4,4,4,4],
+    [26,44,38,4,4,4,4],
+    [26,44,38,68,4,4,4],
+    [26,44,38,68,92,4,4]
+  ];
+  var HINT = [
+    'Tap a rep — the same way you would in the app.',
+    'Logged. One moment that would have been forgotten by tonight.',
+    'Two. Still hard — which is exactly what the data should say right now.',
+    'Three. The effort average just moved for the first time.',
+    'Four. This is the shift almost nobody notices without a record.',
+    'Five reps, ten seconds of tracking. Now picture three hundred.'
+  ];
+
+  function paint(){
+    mReps.textContent = n;
+    mEff.textContent  = EFFORT[n];
+    hint.textContent  = HINT[n];
+    var h = HEIGHT[n];
+    for(var i=0;i<bars.length;i++){
+      bars[i].style.height = h[i] + '%';
+      bars[i].classList.toggle('idle', h[i] <= 4);
+    }
+  }
+
+  reps.addEventListener('click', function(e){
+    var b = e.target.closest('.c-rep');
+    if(!b || n >= MAX) return;
+    n++;
+    paint();
+    if(n >= MAX){
+      payoff.classList.add('show');
+      Array.prototype.forEach.call(reps.querySelectorAll('.c-rep'), function(x){ x.disabled = true; });
+    }
+  });
+
+  reset.addEventListener('click', function(){
+    n = 0;
+    paint();
+    payoff.classList.remove('show');
+    Array.prototype.forEach.call(reps.querySelectorAll('.c-rep'), function(x){ x.disabled = false; });
+  });
+
+  paint();
+})();
+</script>
+
+</body>
 </html>
